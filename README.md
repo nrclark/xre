@@ -32,6 +32,12 @@ make a copy of XRE, comment out the 64-bit group of variables,
 and uncomment the 32-bit group. Save the new one as xre_32 and the
 original as xre_64, and you're good to go for both versions.
 
+If get bored with typing 'xre' all the time and you want to start
+a shell, xre's got you covered. Just run:
+
+> **xre bash**, and you'll find yourself in a shell with all the Xilinx
+runtime variables set up and ready.  
+
 Why?
 ===
 
