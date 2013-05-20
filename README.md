@@ -63,6 +63,15 @@ installations)
 
 How?
 ===
+
+Using XRE is simple. Three easy steps.
+
+1) Download it. It's a script file.
+2) Open it in a text editor and change the variables to match your computer.
+3) Rename it whatever you want and put it in your path.
+4) There is no step 4. Use it to launch Xilinx stuff.
+
+
 XRE uses a block of settings to configure itself. You'll want to change
 those settings for your own machine. On my machine (running ISE 14.5 / 
 XUbuntu 13.04 64-bit), my settings are:
