@@ -60,7 +60,7 @@ if [ "$1" == "--help" ] || [ "$1" == "-h" ]; then
     echo "Usage: $NAME <xilinx command> <argument(s) to xilinx command>"
     echo "    or $NAME <xilinx command> <shell name>"
     echo
-    exit 1
+    exit 0
 fi
 
 # Next, The Xilinx-provided settings file is sourced. These
