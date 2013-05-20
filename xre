@@ -1,0 +1,55 @@
+#!/bin/bash
+# "Prefix" script for use with Xilinx ISE tools under Ubuntu Linux.
+# 
+# Although Xilinx supplies Linux versions of their tools, they don't
+# fully work under Ubuntu. This is a big oversight, in my opinion.
+# Specifially, I've found that ISIM doesn't work properly out of the
+# box (probably other tools don't either).
+#
+# This script sources the Xilinx 'settings' file to get basic
+# environment variables set, and then plays some games with LD_PRELOAD
+# and LD_LIBRARY_PATH to make sure that the Ubuntu-supplied libstdc++
+# is used instead of the Xilinx one.
+#
+# Basically, this script is designed to be used as a "prefix" for all
+# Xilinx commands. So if one wanted to run "ise --fun myTimes.v",
+# the command one would actually enter is "xre ise --fun myTimes.v".
+#
+# The variables below should be tailored to your own machine.
+
+#----------- Variables to Change -------------#
+
+XILINX="/opt/Xilinx/14.5/ISE_DS"
+
+#64-Bit Settings
+
+LIB_PATH="/usr/lib/x86_64-linux-gnu"
+LIBSTDC="libstdc++.so.6"
+SETTINGS="settings64.sh"
+PRELOAD_NAME="LD_PRELOAD"
+RUNTIME_PREFIX="linux64"
+
+#32-Bit Settings
+
+#LIB_PATH="/usr/lib/i386-linux-gnu"
+#LIBSTDC="libstdc++.so.6"
+#SETTINGS="settings32.sh"
+#PRELOAD_NAME="LD_PRELOAD_32"
+#RUNTIME_PREFIX="linux32"
+
+#--------------- Main script -----------------#
+
+if [ "$#" -eq 0 ]; then
+    exit 0
+fi
+
+source "$XILINX/$SETTINGS" "$XILINX" 1>/dev/null
+
+IFS=$(echo -en "\n\b")
+COMMAND="$1"
+shift
+eval export "$PRELOAD_NAME"="$LIB_PATH/$LIBSTDC"
+export LD_LIBRARY_PATH="$LIB_PATH:$LD_LIBRARY_PATH"
+eval "$RUNTIME_PREFIX" "$COMMAND" "$@"
+
+unset IFS
