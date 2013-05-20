@@ -68,7 +68,7 @@ Using XRE is simple. Three easy steps.
 
 1. Download it. It's a script file.
 2. Open it in a text editor and change the variables to match your computer.
-3. Rename it whatever you want and put it in your path.
+3. Rename it to whatever you want and put it in your path.
 4. There is no step 4. Use it to launch Xilinx stuff.
 
 
