@@ -16,7 +16,10 @@
 # the command one would actually enter is "xre ise --fun myTimes.v".
 #
 # The variables below should be tailored to your own machine.
-
+#
+# This script is covered under the GPL version 2.0. It was
+# originally written by Nicholas Clark.
+#
 #----------- Variables to Change -------------#
 
 XILINX="/opt/Xilinx/14.5/ISE_DS"
