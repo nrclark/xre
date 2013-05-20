@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset='utf-8' />
+    <meta http-equiv="X-UA-Compatible" content="chrome=1" />
+    <meta name="description" content="Xre : XRE Xilinx Runtime Executer" />
+
+    <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
+
+    <title>Xre</title>
+  </head>
+
+  <body>
+
+    <!-- HEADER -->
+    <div id="header_wrap" class="outer">
+        <header class="inner">
+          <a id="forkme_banner" href="https://github.com/nrclark/xre">View on GitHub</a>
+
+          <h1 id="project_title">Xre</h1>
+          <h2 id="project_tagline">XRE Xilinx Runtime Executer</h2>
+
+            <section id="downloads">
+              <a class="zip_download_link" href="https://github.com/nrclark/xre/zipball/master">Download this project as a .zip file</a>
+              <a class="tar_download_link" href="https://github.com/nrclark/xre/tarball/master">Download this project as a tar.gz file</a>
+            </section>
+        </header>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <div id="main_content_wrap" class="outer">
+      <section id="main_content" class="inner">
+        <h1>XRE</h1>
+
+<p>XRE - the Xilinx Runtime Executer.</p>
+
+<p>This is an easy-to-customize BASH script for launching Xilinx executables
+from an installation of Xilinx ISE or EDK.</p>
+
+<p>This script is intended to make it easier to use Xilinx's tools from the
+command line, particularly on Ubuntu or other Debian-based distributions
+for which Xilinx's tools don't all work right out of the box.</p>
+
+<p>I'm currently using the script with great success on Ubuntu 13.04 64-bit.</p>
+
+<p>Basically, you edit the script to change a couple of variables in a 
+block at the beginning, and then you use it to launch Xilinx programs. 
+The script takes care of setting up the environment variables and linking
+in the right stdlibc++ to make everything work.</p>
+
+<p>Once you set it up, launching ISE is as easy as running:
+xre ise</p>
+
+<p>If you copy xre and modify it (say, to have two side-by-side installations),
+you could run:</p>
+
+<blockquote>
+<p><strong>xre14_5 ise</strong> to start ISE 14.5 (once you've set up that copy of XRE)<br><strong>xre12_3 ise</strong> to start ISE 12.3 (ditto)<br>
+    ...etc.  </p>
+</blockquote>
+
+<p>If you wanted to run the 32-bit tools for whatever reason, you could
+make a copy of XRE, comment out the 64-bit group of variables,
+and uncomment the 32-bit group. Save the new one as xre_32 and the
+original as xre_64, and you're good to go for both versions.</p>
+
+<p>If get bored with typing 'xre' all the time and you want to start
+a shell, xre's got you covered. Just run:</p>
+
+<blockquote>
+<p><strong>xre bash</strong>, and you'll find yourself in a shell with all the Xilinx
+runtime variables set up and ready.  </p>
+</blockquote>
+
+<h1>Why?</h1>
+
+<p>XRE solves two problems.</p>
+
+<p>1) On Ubuntu and Debian 64-bit Linux, Xilinx's ISE toolset is kind of
+broken as of the time of this writing. It's true that neither of the
+distributions at listed on Xilinx's website as being ISE-compatible,
+but Debian-based distributions make up a majority of Linux installations.</p>
+
+<p>The only thing I found that needed fixing to make ISE Debian-compatible
+was that the distro-supplied libstdc++ needed to be used instead of the
+ISE-supplied copy.</p>
+
+<p>XRE takes care of this automagically by using LD_PRELOAD. It doesn't
+need to change any files in your ISE installation.</p>
+
+<p>2) In a production FPGA environment, it can be important to keep the "right"
+versions of the tools around, for supporting legacy builds. XRE allows you
+to easily change from one tool version to the next (either by editing your
+XRE script file, or by having copies that are configured for different
+installations)</p>
+
+<h1>How?</h1>
+
+<p>Using XRE is simple. Three easy steps.</p>
+
+<ol>
+<li>Download it. It's a script file.</li>
+<li>Open it in a text editor and change the variables to match your computer.</li>
+<li>Rename it to whatever you want and put it in your path.</li>
+<li>There is no step 4. Use it to launch Xilinx stuff.</li>
+</ol><p>XRE uses a block of settings to configure itself. You'll want to change
+those settings for your own machine. On my machine (running ISE 14.5 / 
+XUbuntu 13.04 64-bit), my settings are:</p>
+
+<pre><code>XILINX="/opt/Xilinx/14.5/ISE_DS"
+
+LIB_PATH="/usr/lib/x86_64-linux-gnu"
+LIBSTDC="libstdc++.so.6"
+SETTINGS="settings64.sh"
+PRELOAD_NAME="LD_PRELOAD"
+RUNTIME_PREFIX="linux64"
+</code></pre>
+
+<p>If I wanted to set it up for 32-bit, I'd keep my Xilinx path the same,
+but I'd change the rest of the variables accordingly:</p>
+
+<pre><code>LIB_PATH="/usr/lib/i386-linux-gnu"
+LIBSTDC="libstdc++.so.6"
+SETTINGS="settings32.sh"
+PRELOAD_NAME="LD_PRELOAD_32"
+RUNTIME_PREFIX="linux32"
+</code></pre>
+      </section>
+    </div>
+
+    <!-- FOOTER  -->
+    <div id="footer_wrap" class="outer">
+      <footer class="inner">
+        <p class="copyright">Xre maintained by <a href="https://github.com/nrclark">nrclark</a></p>
+        <p>Published with <a href="http://pages.github.com">GitHub Pages</a></p>
+      </footer>
+    </div>
+
+    
+
+  </body>
+</html>
