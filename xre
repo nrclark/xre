@@ -39,17 +39,61 @@ RUNTIME_PREFIX="linux64"
 
 #--------------- Main script -----------------#
 
+NAME=`basename $0`
+
+# First, the empty case is checked.
+
 if [ "$#" -eq 0 ]; then
-    exit 0
+    echo
+    echo "Error: $NAME: no command specified.">&2
+    echo
+    echo "Usage: $NAME <xilinx command> <argument(s) to xilinx command>"
+    echo "    or $NAME <xilinx command> <shell name>"
+    echo
+    exit 2
 fi
+
+# Next, Help cases are checked.
+
+if [ "$1" == "--help" ] || [ "$1" == "-h" ]; then
+    echo
+    echo "Usage: $NAME <xilinx command> <argument(s) to xilinx command>"
+    echo "    or $NAME <xilinx command> <shell name>"
+    echo
+    exit 1
+fi
+
+# Next, The Xilinx-provided settings file is sourced. These
+# generally reside in the installation's root directory.
 
 source "$XILINX/$SETTINGS" "$XILINX" 1>/dev/null
 
+# Next, the field seperator is changed (to help with spaces)
+
 IFS=$(echo -en "\n\b")
+
+# Next, the command argument is copied and removed from the argument stack.
+# It is also tested for path validity.
+
 COMMAND="$1"
 shift
+
+which "$COMMAND" 1>/dev/null
+if [ "$?" -ne 0 ]; then
+    echo
+    echo "Error: $NAME can't find command '$COMMAND' in any path." >&2
+    echo
+    exit 1
+fi
+
+# If everything went fine, we're ready to run the command.
+
 eval export "$PRELOAD_NAME"="$LIB_PATH/$LIBSTDC"
 export LD_LIBRARY_PATH="$LIB_PATH:$LD_LIBRARY_PATH"
 eval "$RUNTIME_PREFIX" "$COMMAND" "$@"
+RET_VAL=$?
+
+#The command's return value is passed upwards upon completion.
 
 unset IFS
+exit $RET_VAL
