@@ -1,4 +1,4 @@
-xre
+XRE
 ===
 
 XRE - the Xilinx Runtime Executer.
@@ -23,9 +23,14 @@ xre ise
 If you copy xre and modify it (say, to have two side-by-side installations),
 you could run:
 
-    xre14_5 ise to start ISE 14.5 (once you've set up that copy of XRE)  
-    xre12_3 ise to start ISE 12.3  
+> **xre14\_5 ise** to start ISE 14.5 (once you've set up that copy of XRE)  
+> **xre12\_3 ise** to start ISE 12.3 (ditto)  
     ...etc.  
+
+If you wanted to run the 32-bit tools for whatever reason, you could
+make a copy of XRE, comment out the 64-bit group of variables,
+and uncomment the 32-bit group. Save the new one as xre_32 and the
+original as xre_64, and you're good to go for both versions.
 
 Why?
 ===
@@ -38,16 +43,40 @@ distributions at listed on Xilinx's website as being ISE-compatible,
 but Debian-based distributions make up a majority of Linux installations.
 
 The only thing I found that needed fixing to make ISE Debian-compatible
-was that the disro-supplied libstdc++ needed to be used instead of the
+was that the distro-supplied libstdc++ needed to be used instead of the
 ISE-supplied copy.
 
-XRE takes care of this by using LD\_PRELOAD.
+XRE takes care of this automagically by using LD\_PRELOAD. It doesn't
+need to change any files in your ISE installation.
 
 2) In a production FPGA environment, it can be important to keep the "right"
 versions of the tools around, for supporting legacy builds. XRE allows you
 to easily change from one tool version to the next (either by editing your
 XRE script file, or by having copies that are configured for different
 installations)
+
+How?
+===
+XRE uses a block of settings to configure itself. You'll want to change
+those settings for your own machine. On my machine (running ISE 14.5 / 
+XUbuntu 13.04 64-bit), my settings are:
+
+    XILINX="/opt/Xilinx/14.5/ISE_DS"
+       
+    LIB_PATH="/usr/lib/x86_64-linux-gnu"
+    LIBSTDC="libstdc++.so.6"
+    SETTINGS="settings64.sh"
+    PRELOAD_NAME="LD_PRELOAD"
+    RUNTIME_PREFIX="linux64"
+
+If I wanted to set it up for 32-bit, I'd keep my Xilinx path the same,
+but I'd change the rest of the variables accordingly:
+
+    LIB_PATH="/usr/lib/i386-linux-gnu"
+    LIBSTDC="libstdc++.so.6"
+    SETTINGS="settings32.sh"
+    PRELOAD_NAME="LD_PRELOAD_32"
+    RUNTIME_PREFIX="linux32"
 
 
 
