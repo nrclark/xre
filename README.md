@@ -23,8 +23,8 @@ xre ise
 If you copy xre and modify it (say, to have two side-by-side installations),
 you could run:
 
-    xre14\_5 ise to start ISE 14.5 (once you've set up that copy of XRE)  
-    xre12\_3 ise to start ISE 12.3  
+    xre14_5 ise to start ISE 14.5 (once you've set up that copy of XRE)  
+    xre12_3 ise to start ISE 12.3  
     ...etc.  
 
 Why?
