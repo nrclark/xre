@@ -23,6 +23,7 @@
 #----------- Variables to Change -------------#
 
 XILINX="/opt/Xilinx/14.5/ISE_DS"
+#XILINXD_LICENSE_FILE="portnum@hostname"
 
 #64-Bit Settings
 
@@ -89,10 +90,17 @@ if [ "$?" -ne 0 ]; then
     exit 1
 fi
 
-# If everything went fine, we're ready to run the command.
+# If everything went fine, we're ready to run the command. The presence
+# of a license variable is checked. If one exists (or has been set in
+# XRE's header file), it's exported prior to execution.
 
 eval export "$PRELOAD_NAME"="$LIB_PATH/$LIBSTDC"
 export LD_LIBRARY_PATH="$LIB_PATH:$LD_LIBRARY_PATH"
+
+if [ -n "$XILINXD_LICENSE_FILE" ]; then
+    export XILINXD_LICENSE_FILE="$XILINXD_LICENSE_FILE"
+fi
+
 eval "$RUNTIME_PREFIX" "$COMMAND" "$@"
 RET_VAL=$?
 
